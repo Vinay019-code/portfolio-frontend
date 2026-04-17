@@ -18,10 +18,6 @@ export default function Navbar() {
       className="fixed top-0 w-full flex justify-center z-50"
     >
 
-
-  
-
-export default Navbar; *//
       <nav className="glass px-6 py-3 mt-10 rounded-full ">
        <div className=" flex gap-6  ">
 
