@@ -19,19 +19,9 @@ export default function Navbar() {
     >
 
 
-      {/* import { Link } from "react-router-dom";
+  
 
-const Navbar = () => {
-  return (
-    <nav className="flex gap-6 p-4 bg-black text-white">
-      <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
-      <Link to="/learnings">Learnings</Link>
-    </nav>
-  );
-};
-
-export default Navbar; */}
+export default Navbar; *//
       <nav className="glass px-6 py-3 mt-10 rounded-full ">
        <div className=" flex gap-6  ">
 
@@ -48,7 +38,19 @@ export default Navbar; */}
   );
 }
 
-{/* <a href="#about" ">About</a>
+/* <a href="#about" ">About</a>
         <a href="#learning" className="">Learning</a>
         <a href="#projects" className="hover:text-gray-300 transition">Projects</a>
-        <a href="#contact" className="hover:text-gray-300 transition">Contact</a> */}
+        <a href="#contact" className="hover:text-gray-300 transition">Contact</a> */
+
+         /*  import { Link } from "react-router-dom";
+
+const Navbar = () => {
+  return (
+    <nav className="flex gap-6 p-4 bg-black text-white">
+      <Link to="/">Home</Link>
+      <Link to="/about">About</Link>
+      <Link to="/learnings">Learnings</Link>
+    </nav>
+  );
+};*/
