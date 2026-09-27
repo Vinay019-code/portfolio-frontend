@@ -1,119 +1,3 @@
-// import {
-//   FaJava,
-//   FaPython,
-//   FaReact,
-//   FaNodeJs,
-// } from "react-icons/fa";
-// import {
-//   SiMongodb,
-//   SiJavascript,
-// } from "react-icons/si";
-
-// import { useState } from "react";
-
-// const skills = [
-//   { name: "Java", icon: <FaJava /> },
-//   { name: "Python", icon: <FaPython /> },
-//   { name: "JavaScript", icon: <SiJavascript /> },
-//   { name: "React", icon: <FaReact /> },
-//   { name: "Node.js", icon: <FaNodeJs /> },
-//   { name: "MongoDB", icon: <SiMongodb /> },
-//   { name: "DSA", icon: "📊" },
-// ];
-
-// const certificates = [
-//   {
-//     title: "Java Programming Certificate",
-//     image: "/assets/certificates/java.png",
-//   },
-//   {
-//     title: "Python Data Science Certificate",
-//     image: "/assets/certificates/python.png",
-//   },
-//   {
-//     title: "MERN Stack Certificate",
-//     image: "/assets/certificates/mern.png",
-//   },
-// ];
-
-// const Learnings = () => {
-//   const [selectedCert, setSelectedCert] = useState(null);
-
-//   return (
-//     <div className="min-h-screen  text-white px-6 md:px-20 py-12">
-      
-//       {/* Heading */}
-//       <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-//         My Learnings
-//       </h1>
-//       <p className="text-gray-400 text-center mb-12">
-//         Technologies, tools, and skills I’ve mastered over time.
-//       </p>
-
-//       {/* Skills Section */}
-//       <div className="mb-16">
-//         <h2 className="text-2xl font-semibold mb-6">Skills & Technologies</h2>
-
-//         <div className="grid  grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-//           {skills.map((skill, index) => (
-//             <div
-//               key={index}
-//               className="bg-[#1e293b] p-6 rounded-xl flex flex-col items-center justify-center 
-//               hover:scale-105 hover:bg-[#334155] transition duration-300 cursor-pointer glass"
-//             >
-//               <div className="text-4xl mb-3 text-blue-400">
-//                 {skill.icon}
-//               </div>
-//               <p className="text-sm">{skill.name}</p>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-
-//       {/* Certificates Section */}
-//       <div>
-//         <h2 className="text-2xl font-semibold mb-6">Certificates</h2>
-
-//         <div className=" grid md:grid-cols-3 gap-6">
-//           {certificates.map((cert, index) => (
-//             <div
-//               key={index}
-//               className="bg-[#1e293b] rounded-xl overflow-hidden cursor-pointer 
-//               hover:scale-105 transition duration-300 glass"
-//               onClick={() => setSelectedCert(cert.image)}
-//             >
-//               <img
-//                 src={cert.image}
-//                 alt={cert.title}
-//                 className="w-full h-48 object-cover"
-//               />
-//               <div className="p-4">
-//                 <p className="text-sm text-center">{cert.title}</p>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-
-//       {/* Modal (Image Preview) */}
-//       {selectedCert && (
-//         <div
-//           className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-//           onClick={() => setSelectedCert(null)}
-//         >
-//           <img
-//             src={selectedCert}
-//             alt="Certificate"
-//             className="max-w-[90%] max-h-[80%] rounded-lg shadow-lg"
-//           />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Learnings;
-
 import { useState } from "react";
 import {
   FaJava,
@@ -126,15 +10,16 @@ import {
   SiMongodb,
   SiJavascript,
 } from "react-icons/si";
+import { useScrollReveal, useStaggerReveal } from "../animations/gsapUtils";
 
 const skillsData = [
-  { name: "React", icon:<FaReact /> , level: 85, category: "Frontend" },
-  { name: "JavaScript", icon: <SiJavascript />, level: 90, category: "Frontend" },
-  { name: "Node.js", icon: <FaNodeJs />, level: 80, category: "Backend" },
-  { name: "MongoDB", icon: <SiMongodb />, level: 75, category: "Backend" },
-  { name: "Java", icon: <FaJava />, level: 85, category: "Core" },
-  { name: "Python", icon: <FaPython />, level: 80, category: "AI" },
-  { name: "DSA", icon: "📊", level: 78, category: "Core" },
+  { name: "React", icon: <FaReact />, category: "Frontend" },
+  { name: "JavaScript", icon: <SiJavascript />, category: "Frontend" },
+  { name: "Node.js", icon: <FaNodeJs />, category: "Backend" },
+  { name: "MongoDB", icon: <SiMongodb />, category: "Backend" },
+  { name: "Java", icon: <FaJava />, category: "Core" },
+  { name: "Python", icon: <FaPython />, category: "AI" },
+  { name: "DSA", icon: "📊", category: "Core" },
 ];
 
 const certificates = [
@@ -161,94 +46,201 @@ const Learnings = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedCert, setSelectedCert] = useState(null);
 
+  const headingRef = useScrollReveal();
+  const filtersRef = useScrollReveal({ delay: 0.1 });
+  const skillsGridRef = useStaggerReveal({
+    childSelector: ".stagger-item",
+    stagger: 0.08,
+  });
+  const certHeadingRef = useScrollReveal();
+  const certsGridRef = useStaggerReveal({
+    childSelector: ".stagger-item",
+    stagger: 0.1,
+  });
+
   const filteredSkills =
     activeCategory === "All"
       ? skillsData
       : skillsData.filter((skill) => skill.category === activeCategory);
 
   return (
-    <div className="min-h-screen text-white px-6 md:px-20 py-12 pb-48 mt-32 text-2xl ">
-
-      {/* Heading */}
-      <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
-        My Learnings 🚀
-      </h1>
-      <p className="text-gray-400 text-center mb-10">
-        A journey of technologies, problem solving & continuous growth.
-      </p>
-
-      {/* Filter Buttons */}
-      <div className="flex flex-wrap text-3xl justify-center gap-3  mb-10">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-2 rounded-full text-xl transition  ${
-              activeCategory === cat
-                ? "bg-blue-500 text-white"
-                : "bg-[#1e293b] hover:bg-blue-500"
-            }`}
+    <section className="section" style={{ paddingTop: "8rem" }}>
+      <div className="container">
+        {/* Heading */}
+        <div
+          ref={headingRef}
+          style={{ opacity: 0, textAlign: "center", marginBottom: "1rem" }}
+        >
+          <span className="section-label">Skills & Learning</span>
+          <h1 className="heading-section">My Learnings</h1>
+          <p
+            className="text-body"
+            style={{
+              maxWidth: "500px",
+              margin: "1rem auto 0",
+            }}
           >
-            {cat}
-          </button>
-        ))}
-      </div>
+            A journey of technologies, problem solving & continuous growth.
+          </p>
+        </div>
 
-      {/* Skills Section */}
-      <div className="grid md:grid-cols-6 gap-12 mb-16 h-fit w-fit place-self-center mt-20">
-        {filteredSkills.map((skill, index) => (
-          <div
-            key={index}
-            className="bg-[#0f172a] p-5  glass rounded-xl  hover:shadow-lg hover:shadow-blue-500/20 transition"
-          >
-            <div className="flex items-center justify-between mb-2 ">
-              <div className="flex items-center gap-3 ">
-                <span className=" text-7xl">
-                  {skill.icon}
-                </span>
-                {skill.name}
-              </div>
-              {/* <span className="text-sm text-gray-400">
-                {skill.level}%
-              </span> */}
-            </div>
+        {/* Filter Buttons */}
+        <div
+          ref={filtersRef}
+          style={{
+            opacity: 0,
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "0.5rem",
+            margin: "2.5rem 0",
+          }}
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={activeCategory === cat ? "btn btn-primary" : "btn btn-ghost"}
+              style={{
+                padding: "0.45rem 1.1rem",
+                fontSize: "0.8rem",
+                ...(activeCategory === cat
+                  ? {}
+                  : {
+                      border: "1px solid var(--border-subtle)",
+                    }),
+              }}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
-            {/* Progress Bar */}
-            {/* <div className="w-full h-2 bg-gray-700 rounded-full">
+        {/* Skills Grid */}
+        <div
+          ref={skillsGridRef}
+          key={activeCategory}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+            gap: "1rem",
+            maxWidth: "700px",
+            margin: "0 auto 6rem",
+          }}
+        >
+          {filteredSkills.map((skill, index) => (
+            <div
+              key={index}
+              className="card stagger-item"
+              style={{
+                opacity: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "0.75rem",
+                padding: "1.5rem 1rem",
+                textAlign: "center",
+                cursor: "default",
+              }}
+            >
               <div
-                className="h-2 bg-blue-500 rounded-full transition-all duration-700"
-                style={{ width: `${skill.level}%` }}
-              ></div>
-            </div> */}
-          </div>
-        ))}
-      </div>
+                style={{
+                  fontSize: "2rem",
+                  color: "var(--accent-light)",
+                  lineHeight: 1,
+                }}
+              >
+                {skill.icon}
+              </div>
+              <span
+                style={{
+                  fontSize: "0.85rem",
+                  fontWeight: 500,
+                  color: "var(--text-secondary)",
+                }}
+              >
+                {skill.name}
+              </span>
+            </div>
+          ))}
+        </div>
 
-      {/* Certificates */}
-      <div className="mt-40">
-        <h2 className="text-5xl font-bold mb-6 flex items-center justify-center">
-          Certificates 🎓
-        </h2>
+        {/* Certificates */}
+        <div ref={certHeadingRef} style={{ opacity: 0, textAlign: "center", marginBottom: "2rem" }}>
+          <span className="section-label">Recognition</span>
+          <h2 className="heading-section" style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)" }}>
+            Certificates
+          </h2>
+        </div>
 
-        <div className="grid  md:grid-cols-3 gap-6 mt-20">
+        <div
+          ref={certsGridRef}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "1.25rem",
+          }}
+        >
           {certificates.map((cert, index) => (
             <div
               key={index}
-              className="bg-[#0f172a] glass rounded-xl overflow-hidden group cursor-pointer hover:scale-105 transition"
+              className="card stagger-item"
+              style={{
+                opacity: 0,
+                padding: 0,
+                overflow: "hidden",
+                cursor: "pointer",
+              }}
             >
-              <div className="relative">
+              <div
+                style={{
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
                 <img
                   src={cert.image}
                   alt={cert.title}
-                  className="w-full h-52 object-cover"
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                    display: "block",
+                    transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.04)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+                  loading="lazy"
                 />
 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-4 transition">
-                  
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "rgba(0,0,0,0.65)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.75rem",
+                    opacity: 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = 1;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = 0;
+                  }}
+                >
                   <button
                     onClick={() => setSelectedCert(cert.image)}
-                    className="bg-blue-500 px-3 py-1 rounded text-xl"
+                    className="btn btn-primary"
+                    style={{ padding: "0.5rem 1.25rem", fontSize: "0.8rem" }}
                   >
                     View
                   </button>
@@ -257,35 +249,65 @@ const Learnings = () => {
                     href={cert.link}
                     target="_blank"
                     rel="noreferrer"
-                    className="bg-white text-black px-3 py-1 rounded text-xl flex items-center gap-1"
+                    className="btn btn-secondary"
+                    style={{
+                      padding: "0.5rem 1.25rem",
+                      fontSize: "0.8rem",
+                    }}
                   >
-                    Verify <FaExternalLinkAlt size={12} />
+                    Verify <FaExternalLinkAlt style={{ fontSize: "0.65rem" }} />
                   </a>
                 </div>
               </div>
 
-              <div className="p-4 text-center text-xl">
+              <div
+                style={{
+                  padding: "1rem 1.25rem",
+                  textAlign: "center",
+                  fontSize: "0.9rem",
+                  fontWeight: 500,
+                  color: "var(--text-secondary)",
+                }}
+              >
                 {cert.title}
               </div>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Modal */}
-      {selectedCert && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-          onClick={() => setSelectedCert(null)}
-        >
-          <img
-            src={selectedCert}
-            alt="certificate"
-            className="max-w-[90%] max-h-[80%] rounded-lg"
-          />
-        </div>
-      )}
-    </div>
+        {/* Modal */}
+        {selectedCert && (
+          <div
+            onClick={() => setSelectedCert(null)}
+            role="dialog"
+            aria-label="Certificate preview"
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0, 0, 0, 0.85)",
+              backdropFilter: "blur(8px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 200,
+              cursor: "pointer",
+              padding: "2rem",
+            }}
+          >
+            <img
+              src={selectedCert}
+              alt="Certificate"
+              style={{
+                maxWidth: "90%",
+                maxHeight: "80vh",
+                borderRadius: "var(--radius-lg)",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+              }}
+            />
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
 

@@ -1,27 +1,13 @@
-import { useEffect, useState } from "react";
-
+/**
+ * Lightweight CSS-based background with grid and glow effects.
+ * Replaces the heavy Three.js particle background for better performance.
+ */
 export default function Background() {
-  const [offset, setOffset] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setOffset(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <>
-    <div
-      className="parallax-bg "
-      style={{
-        transform: `translateY(${offset * 0.2}px)`
-      }}
-    >
-    </div>
-        </>
-
+      <div className="bg-grid" aria-hidden="true" />
+      <div className="bg-glow" aria-hidden="true" />
+      <div className="bg-glow-secondary" aria-hidden="true" />
+    </>
   );
 }

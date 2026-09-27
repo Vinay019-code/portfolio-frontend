@@ -1,83 +1,132 @@
 import { FaGithub, FaLinkedin, FaEnvelope, FaInstagram } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
+  const navLinks = [
+    { to: "/", label: "Home" },
+    { to: "/about", label: "About" },
+    { to: "/learnings", label: "Skills" },
+    { to: "/projects", label: "Projects" },
+    { to: "/contact", label: "Contact" },
+  ];
+
+  const socialLinks = [
+    {
+      icon: <FaGithub />,
+      href: "https://github.com/Vinay019-code",
+      label: "GitHub",
+    },
+    {
+      icon: <FaLinkedin />,
+      href: "https://www.linkedin.com/in/vinay-yadav-617363335",
+      label: "LinkedIn",
+    },
+    {
+      icon: <FaInstagram />,
+      href: "https://www.linkedin.com/in/vinay-yadav-617363335",
+      label: "Instagram",
+    },
+    {
+      icon: <FaEnvelope />,
+      href: "https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox",
+      label: "Email",
+    },
+  ];
+
   return (
-    <footer className="bg-[#0f172a] text-gray-300 stickey  pt-5 pb-6 px-6 md:px-20">
-      
-      {/* Top Section */} 
-      <div className="grid md:grid-cols-4 gap-10 border-b border-gray-700 pb-10">
-        
-        {/* Brand
-        {/* <div>
-          <h2 className="text-3xl font-bold text-white mb-3">
-            Vinay Yadav
-          </h2>
-          <p className="text-xl leading-6">
-            Building scalable web apps, intelligent systems, and modern
-            digital experiences using MERN, Java & Python.
-          </p>
-        </div> */}
+    <footer
+      style={{
+        borderTop: "1px solid var(--border-subtle)",
+        padding: "3rem 0 2rem",
+        marginTop: "4rem",
+      }}
+    >
+      <div
+        className="container"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "2rem",
+        }}
+      >
+        {/* Nav Links */}
+        <nav
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "1.5rem",
+          }}
+          aria-label="Footer navigation"
+        >
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className="link-underline"
+              style={{ fontSize: "0.85rem" }}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-3xl font-semibold text-white mb-4">
-            Quick Links
-          </h3>
-          <ul className="space-y-2 text-xl">
-            {["Home", "About", "Projects", "Contact"].map((item) => (
-              <li
-                key={item}
-                className="hover:text-blue-400 transition duration-300 cursor-pointer"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
+        {/* Social Links */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.75rem",
+          }}
+        >
+          {socialLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={link.label}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "36px",
+                height: "36px",
+                borderRadius: "var(--radius-md)",
+                border: "1px solid var(--border-subtle)",
+                color: "var(--text-muted)",
+                fontSize: "1rem",
+                transition: "all var(--transition-base)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "var(--accent)";
+                e.currentTarget.style.color = "var(--accent-light)";
+                e.currentTarget.style.background = "var(--accent-glow)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--border-subtle)";
+                e.currentTarget.style.color = "var(--text-muted)";
+                e.currentTarget.style.background = "transparent";
+              }}
+            >
+              {link.icon}
+            </a>
+          ))}
         </div>
 
-        {/* Services / Skills */}
-        <div>
-          <h3 className="text-3xl font-semibold text-white mb-4">
-            Skills
-          </h3>
-          <ul className="space-y-2 cursor-pointer text-xl">
-            <li className="hover:text-blue-400 transition">MERN Stack</li>
-            <li className="hover:text-blue-400 transition">Java Backend</li>
-            <li className="hover:text-blue-400 transition">Python & Data Science</li>
-            <li className="hover:text-blue-400 transition">API Development</li>
-          </ul>
-        </div>
-
-        {/* Contact */}
-        <div>
-          <h3 className="text-3xl font-semibold text-white mb-4">
-            Get in Touch
-          </h3>
-          <p className="text-xl mb-3">vinay@example.com</p>
-          <p className="text-xl mb-4">Open for freelance & internships</p>
-
-          {/* Social Icons */}
-          <div className="flex space-x-4  text-3xl">
-            <a href="https://github.com/Vinay019-code" className="hover:text-blue-400  transition">
-              <FaGithub />
-            </a>
-            <a href="https://www.linkedin.com/in/vinay-yadav-617363335" className="hover:text-blue-400 transition">
-              <FaLinkedin />
-            </a>
-            <a href="https://www.linkedin.com/in/vinay-yadav-617363335" className="hover:text-blue-400 transition">
-               <FaInstagram/>
-            </a>
-            <a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox" className="hover:text-blue-400 transition">
-              <FaEnvelope />
-              
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Section */}
-      <div className="text-center mt-6 text-sm text-gray-400">
-        © {new Date().getFullYear()} Vinay Yadav. All rights reserved.
+        {/* Copyright */}
+        <p
+          style={{
+            fontSize: "0.75rem",
+            color: "var(--text-muted)",
+            textAlign: "center",
+          }}
+        >
+          © {currentYear} Vinay Yadav. All rights reserved.
+        </p>
       </div>
     </footer>
   );
